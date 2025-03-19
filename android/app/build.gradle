@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
+    compileSdk = 35
     namespace = "com.teko.entry_project"
-    compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
