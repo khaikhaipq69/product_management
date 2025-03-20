@@ -97,8 +97,7 @@ class ProductDetailPopup extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Implement Delete functionality
-                    print('Delete ${product.name}');
-                    Get.back();
+                    controller.deleteProduct(product);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.yellow,

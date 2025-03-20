@@ -169,4 +169,19 @@ class HomeController extends GetxController {
       selectedImage.value = File(image.path);
     }
   }
+
+  void deleteProduct(productModel.Item productToDelete) {
+    if (productLists.isNotEmpty) {
+      productLists.first.items.remove(productToDelete);
+      filteredProducts.remove(productToDelete);
+      Get.back();
+      productLists.refresh(); // Trigger UI update for productLists
+      filteredProducts.refresh();
+      localImages.remove(productToDelete.name); // Remove local image if it exists
+      UtilCommon.snackBar(text: 'Product "${productToDelete.name}" deleted successfully!', isFail: false);
+
+    } else {
+      UtilCommon.snackBar(text: 'No product list available to delete from.', isFail: true);
+    }
+  }
 }
