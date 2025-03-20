@@ -5,8 +5,6 @@ import '../controllers/home_controller.dart';
 import 'package:entry_project/app/widgets/product_creation_form.dart';
 import 'package:entry_project/app/widgets/product_list_widget.dart';
 
-
-
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
   @override
@@ -14,8 +12,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Quản lý sản phẩm',
-          style: TextStyle(fontWeight: FontWeight.bold)
-        ),
+            style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

@@ -1,47 +1,3 @@
-// import 'reponsive_utils.dart';
-// import 'package:flutter/material.dart';
-//
-// // ignore: must_be_immutable
-// class FormFieldWidget extends StatelessWidget {
-//   final String labelText;
-//   final TextEditingController? controller;
-//   final bool isRequired; // Add a flag for required fields
-//
-//   const FormFieldWidget({
-//     Key? key,
-//     required this.labelText,
-//     required this.controller,
-//     this.isRequired = false, // Default to not required
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-//       controller: controller,
-//       decoration: InputDecoration(
-//         label: isRequired
-//             ? Text.rich(
-//           TextSpan(
-//             children: <TextSpan>[
-//               const TextSpan(
-//                 text: '*',
-//                 style: TextStyle(color: Colors.red),
-//               ),
-//               TextSpan(text: ' $labelText'),
-//             ],
-//           ),
-//         )
-//             : Text(labelText), // Wrap labelText in a Text widget when not required
-//         floatingLabelBehavior: FloatingLabelBehavior.always,
-//         floatingLabelStyle: const TextStyle(
-//           color: Colors.black,
-//         ),
-//         labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-//         border: const OutlineInputBorder(),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -77,16 +33,16 @@ class FormFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
         label: isRequired
             ? Text.rich(
-          TextSpan(
-            children: <TextSpan>[
-              const TextSpan(
-                text: '*',
-                style: TextStyle(color: Colors.red),
-              ),
-              TextSpan(text: ' $labelText'),
-            ],
-          ),
-        )
+                TextSpan(
+                  children: <TextSpan>[
+                    const TextSpan(
+                      text: '*',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    TextSpan(text: ' $labelText'),
+                  ],
+                ),
+              )
             : Text(labelText),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         floatingLabelStyle: const TextStyle(

@@ -5,7 +5,8 @@ import 'dart:convert';
 import '../models/ProductManagement.dart';
 
 class ProductManagementService {
-  final String apiUrl = 'https://hiring-test.stag.tekoapis.net/api/products/management';
+  final String apiUrl =
+      'https://hiring-test.stag.tekoapis.net/api/products/management';
 
   Future<ProductManagement> fetchProductData() async {
     try {
@@ -16,7 +17,8 @@ class ProductManagementService {
         print(decodedData);
         return ProductManagement.fromJson(decodedData);
       } else {
-        throw Exception('Failed to load data: Status code ${response.statusCode}');
+        throw Exception(
+            'Failed to load data: Status code ${response.statusCode}');
       }
     } catch (e) {
       throw Exception('An error occurred while loading data: $e');
