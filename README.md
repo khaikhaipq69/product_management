@@ -12,6 +12,7 @@ A few resources related to the project:
 - [Documents link](https://drive.google.com/drive/folders/1Np-HUx7F4un4vGmeZtyTkOeD_VCGXRzH?usp=sharing)
 
 For user guide & installation, view the User Manual document located in the project_documents file
+
 For detail project development report, view the Project reiew document licated in the project_documents file
 
 ## Happy coding !
