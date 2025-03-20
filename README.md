@@ -4,15 +4,14 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point for QLSP mobile application.
 
-A few resources to get you started if this is your first Flutter project:
+A few resources related to the project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Project Backlog/Management](https://tree.taiga.io/project/khakhaipq69-entry_project-qlsp/kanban)
+- [Documents link]()
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For user guide & installation, view the User Manual document located in the project_documents file
+For detail project development report, view the Project reiew document licated in the project_documents file
 
-### Sample
+## Happy coding !
