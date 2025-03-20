@@ -184,4 +184,28 @@ class HomeController extends GetxController {
       UtilCommon.snackBar(text: 'No product list available to delete from.', isFail: true);
     }
   }
+
+  void updateProduct(productModel.Item existingProduct, String newName, int newPrice) {
+    if (productLists.isNotEmpty) {
+      final index = productLists.first.items.indexOf(existingProduct);
+      if (index != -1) {
+        final updatedProduct = existingProduct.copyWith(name: newName, price: newPrice);
+        productLists.first.items[index] = updatedProduct;
+        // Update in filtered list if it exists
+        final filteredIndex = filteredProducts.indexOf(existingProduct);
+        if (filteredIndex != -1) {
+          filteredProducts[filteredIndex] = updatedProduct;
+        }
+        Get.back();
+        productLists.refresh();
+        filteredProducts.refresh();
+        UtilCommon.snackBar(text: 'Product "${newName}" updated successfully!', isFail: false);
+      } else {
+        UtilCommon.snackBar(text: 'Product not found in the list.', isFail: true);
+      }
+    } else {
+      UtilCommon.snackBar(text: 'No product list available to update.', isFail: true);
+    }
+  }
+
 }
