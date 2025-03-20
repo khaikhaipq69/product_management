@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:entry_project/app/models/ProductManagement.dart'; // Import your model
+import 'package:entry_project/app/models/ProductManagement.dart';
 
-// ignore: must_be_immutable
 class FormFieldWidget extends StatelessWidget {
   final String labelText;
   final TextEditingController? controller;

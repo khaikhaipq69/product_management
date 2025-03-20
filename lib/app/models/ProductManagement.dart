@@ -1,4 +1,3 @@
-// lib/models/product_management_response.dart
 class ProductManagement {
   String code;
   String message;

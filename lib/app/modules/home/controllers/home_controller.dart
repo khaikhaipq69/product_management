@@ -5,20 +5,21 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:entry_project/app/service/product_management.dart';
-import 'package:entry_project/app/models/ProductManagement.dart'
-    as productModel;
+import 'package:entry_project/app/models/ProductManagement.dart' as productModel;
 
 class HomeController extends GetxController {
   final productNameController = TextEditingController();
   final productPriceController = TextEditingController();
-  RxList<productModel.Productlist> productLists =
-      <productModel.Productlist>[].obs;
+  final searchController = TextEditingController();
+  RxList<productModel.Productlist> productLists = <productModel.Productlist>[].obs;
+  RxList<productModel.Item> filteredProducts = <productModel.Item>[].obs;
+  RxMap<String, File> localImages = <String, File>{}.obs;
   RxString titleText = ''.obs;
   RxList<productModel.Form> formFields = <productModel.Form>[].obs;
   RxString createButtonText = ''.obs;
   RxBool isLoading = true.obs;
   RxString errorMessage = ''.obs;
-  RxBool isGridView = true.obs; // To control the display mode
+  RxBool isGridView = true.obs;
 
   final ProductManagementService _productService = ProductManagementService();
   final ImagePicker _picker = ImagePicker();
@@ -30,10 +31,25 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchProductData();
+    searchController.addListener(() {
+      filterProducts(searchController.text);
+    });
   }
 
   void toggleView() {
     isGridView.value = !isGridView.value;
+  }
+
+  void filterProducts(String query) {
+    if (productLists.isNotEmpty) {
+      if (query.isEmpty) {
+        filteredProducts.assignAll(productLists.first.items);
+      } else {
+        filteredProducts.assignAll(productLists.first.items
+            .where((item) => item.name.toLowerCase().contains(query.toLowerCase()))
+            .toList());
+      }
+    }
   }
 
   Future<void> fetchProductData() async {
@@ -51,11 +67,10 @@ class HomeController extends GetxController {
         } else if (datum.type == 'ProductList') {
           if (datum.customAttributes.productlist != null) {
             productLists.add(datum.customAttributes.productlist!);
-            print(
-                'ProductList fetched. Item count: ${datum.customAttributes.productlist!.items.length}');
+            filteredProducts.assignAll(datum.customAttributes.productlist!.items);
+            print('Productlist fetched. Item count: ${datum.customAttributes.productlist!.items.length}');
             for (final item in datum.customAttributes.productlist!.items) {
-              print(
-                  '  Item Name: ${item.name}, Price: ${item.price}, Image: ${item.imageSrc}');
+              print('  Item Name: ${item.name}, Price: ${item.price}, Image: ${item.imageSrc}');
             }
           } else {
             print('Productlist is null in the API response.');
@@ -64,8 +79,7 @@ class HomeController extends GetxController {
       }
       print('Total Productlist count in controller: ${productLists.length}');
       if (productLists.isNotEmpty) {
-        print(
-            'Items in the first Productlist: ${productLists.first.items.length}');
+        print('Items in the first Productlist: ${productLists.first.items.length}');
       } else {
         print('No Productlist objects found in the response.');
       }
@@ -79,14 +93,13 @@ class HomeController extends GetxController {
 
   Future<void> createProduct() async {
     final nameController = formFields.firstWhereOrNull((f) => f.name == 'name');
-    final priceController =
-        formFields.firstWhereOrNull((f) => f.name == 'price');
+    final priceController = formFields.firstWhereOrNull((f) => f.name == 'price');
 
     final name = productNameController.text.trim();
     final price = productPriceController.text.trim();
     final imageFile = selectedImage.value;
 
-    if (nameController?.required == true && name.isEmpty || name == '') {
+    if (nameController?.required == true && name.isEmpty) {
       Get.snackbar('Error', 'Product name cannot be empty');
       return;
     }
@@ -100,16 +113,12 @@ class HomeController extends GetxController {
         Get.snackbar('Error', 'Product price must be a valid number');
         return;
       }
-      if (priceController?.minValue != null &&
-          int.parse(price) < priceController!.minValue!) {
-        Get.snackbar('Error',
-            'Product price cannot be less than ${priceController.minValue}');
+      if (priceController?.minValue != null && int.parse(price) < priceController!.minValue!) {
+        Get.snackbar('Error', 'Product price cannot be less than ${priceController.minValue}');
         return;
       }
-      if (priceController?.maxValue != null &&
-          int.parse(price) > priceController!.maxValue!) {
-        Get.snackbar('Error',
-            'Product price cannot be greater than ${priceController.maxValue}');
+      if (priceController?.maxValue != null && int.parse(price) > priceController!.maxValue!) {
+        Get.snackbar('Error', 'Product price cannot be greater than ${priceController.maxValue}');
         return;
       }
     }
@@ -121,24 +130,18 @@ class HomeController extends GetxController {
 
     isLoading.value = true;
     try {
-      // Simulate image upload and product creation
       await Future.delayed(const Duration(seconds: 1));
       final newItem = productModel.Item(
           name: name,
           price: int.tryParse(price) ?? 0,
-          imageSrc: imageFile
-              .path // In a real scenario, you'd upload this to a server
-          );
+          imageSrc: imageFile.path
+      );
       if (productLists.isNotEmpty) {
         productLists.first.items.insert(0, newItem);
+        // Store the local image file
+        localImages[name] = imageFile;
+        filterProducts(searchController.text);
         productLists.refresh();
-        for (int i = 0; i < productLists.first.items.length; i++) {
-          print(productLists.first.items[i].name +
-              ", " +
-              productLists.first.items[i].price.toString() +
-              ", " +
-              productLists.first.items[i].imageSrc);
-        }
       }
       productNameController.clear();
       productPriceController.clear();

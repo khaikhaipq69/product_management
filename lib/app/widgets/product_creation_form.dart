@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'reponsive_utils.dart'; // Import your responsive utilities
+import 'reponsive_utils.dart'; //Responsive
 import '../modules/home/controllers/home_controller.dart';
 import '../widgets/form_field_widget.dart';
 
@@ -56,7 +56,7 @@ class ProductCreationForm extends StatelessWidget {
         ),
         SizedBoxConst.size(context: context, size: 24.0),
         SizedBox(
-          width: double.infinity, // Make the button take full width
+          width: double.infinity,
           child: Align(
             alignment: Alignment.center,
             child: ElevatedButton(
