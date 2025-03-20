@@ -13,6 +13,6 @@ A few resources related to the project:
 
 For user guide & installation, view the User Manual document located in the project_documents file
 
-For detail project development report, view the Project reiew document licated in the project_documents file
+For detail project development report, view the Project review document located in the project_documents file
 
 ## Happy coding !
