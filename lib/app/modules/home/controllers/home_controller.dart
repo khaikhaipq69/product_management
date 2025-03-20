@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:entry_project/app/service/product_management.dart';
 import 'package:entry_project/app/models/ProductManagement.dart' as productModel;
+import 'package:entry_project/app/widgets/util_common.dart';
 
 class HomeController extends GetxController {
   final productNameController = TextEditingController();
@@ -92,39 +93,47 @@ class HomeController extends GetxController {
   }
 
   Future<void> createProduct() async {
-    final nameController = formFields.firstWhereOrNull((f) => f.name == 'name');
+    final nameController = formFields.firstWhereOrNull((f) => f.name == 'productName');
     final priceController = formFields.firstWhereOrNull((f) => f.name == 'price');
 
     final name = productNameController.text.trim();
     final price = productPriceController.text.trim();
     final imageFile = selectedImage.value;
 
-    if (nameController?.required == true && name.isEmpty) {
-      Get.snackbar('Error', 'Product name cannot be empty');
+    if (nameController?.required == true && name.isEmpty || name == '') {
+      UtilCommon.snackBar(text: 'Product name cannot be empty', isFail: true);
       return;
     }
     if (priceController?.required == true && price.isEmpty) {
-      Get.snackbar('Error', 'Product price cannot be empty');
+      UtilCommon.snackBar(text: 'Product price cannot be empty', isFail: true);
       return;
     }
 
     if (price.isNotEmpty && priceController?.type == 'number') {
       if (int.tryParse(price) == null) {
-        Get.snackbar('Error', 'Product price must be a valid number');
+        UtilCommon.snackBar(text: 'Product price must be a valid number', isFail: true);
         return;
       }
       if (priceController?.minValue != null && int.parse(price) < priceController!.minValue!) {
-        Get.snackbar('Error', 'Product price cannot be less than ${priceController.minValue}');
+        UtilCommon.snackBar(text: 'Product price cannot be less than ${priceController.minValue}', isFail: true);
         return;
       }
       if (priceController?.maxValue != null && int.parse(price) > priceController!.maxValue!) {
-        Get.snackbar('Error', 'Product price cannot be greater than ${priceController.maxValue}');
+        UtilCommon.snackBar(text: 'Product price cannot be greater than ${priceController.maxValue}', isFail: true);
+        return;
+      }
+      if (nameController?.minValue != null && name.length < nameController!.minValue!) {
+        UtilCommon.snackBar(text: 'Product name cannot be less than ${nameController.minValue}', isFail: true);
+        return;
+      }
+      if (nameController?.maxLength != null && name.length > nameController!.maxLength!) {
+        UtilCommon.snackBar(text: 'Product name cannot be greater than ${nameController.maxLength}', isFail: true);
         return;
       }
     }
 
     if (imageFile == null) {
-      Get.snackbar('Error', 'Please select a product image.');
+      UtilCommon.snackBar(text: 'Please select a product image.', isFail: true);
       return;
     }
 
@@ -146,9 +155,9 @@ class HomeController extends GetxController {
       productNameController.clear();
       productPriceController.clear();
       selectedImage.value = null;
-      Get.snackbar('Success', 'Product "$name" created successfully!');
+      UtilCommon.snackBar(text: 'Product "$name" created successfully!', isFail: false);
     } catch (e) {
-      Get.snackbar('Error', 'Failed to create product: $e');
+      UtilCommon.snackBar(text: 'Failed to create product: $e', isFail: true);
     } finally {
       isLoading.value = false;
     }
